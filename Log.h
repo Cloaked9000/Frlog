@@ -2,8 +2,8 @@
 // Created by fred on 05/10/16.
 //
 
-#ifndef BACKUPSERVER_LOG_H
-#define BACKUPSERVER_LOG_H
+#ifndef FRLOG_H
+#define FRLOG_H
 
 #include <string>
 #include <iostream>
@@ -75,4 +75,4 @@ private:
 
 #define log Log::logger
 
-#endif //BACKUPSERVER_LOG_H
+#endif //FRLOG_H

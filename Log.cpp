@@ -31,17 +31,7 @@ Log::~Log()
 bool Log::init(const std::string &logpath)
 {
     Log::logger.logstream.open(logpath);
-    if(!Log::logger.logstream.is_open())
-    {
-        std::cout << "Failed to open " << logpath << " for logging!" << std::endl;
-        return false;
-    }
-    else
-    {
-        std::cout << "Logging initialised" << std::endl;
-    }
-
-    return true;
+    return Log::logger.logstream.is_open();
 }
 
 template<typename T>
