@@ -12,6 +12,7 @@ template Log &Log::operator<< <int>(const int &data);
 template Log &Log::operator<< <float>(const float &data);
 template Log &Log::operator<< <double>(const double &data);
 template Log &Log::operator<< <short>(const short &data);
+template Log &Log::operator<< <size_t>(const size_t &data);
 
 //String names for each logging level
 std::string log_levels[Log::count] = {"Info", "Warn", "Crit"};
