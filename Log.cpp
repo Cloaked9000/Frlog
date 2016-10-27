@@ -8,11 +8,16 @@
 Log Log::logger;
 
 //Force compiler to generate code needed for << overload of different types
-template Log &Log::operator<< <int>(const int &data);
+template Log &Log::operator<< <int8_t>(const int8_t &data);
+template Log &Log::operator<< <int16_t>(const int16_t &data);
+template Log &Log::operator<< <int32_t>(const int32_t &data);
+template Log &Log::operator<< <int64_t>(const int64_t &data);
+template Log &Log::operator<< <uint8_t>(const uint8_t &data);
+template Log &Log::operator<< <uint16_t>(const uint16_t &data);
+template Log &Log::operator<< <uint32_t>(const uint32_t &data);
+template Log &Log::operator<< <uint64_t>(const uint64_t &data);
 template Log &Log::operator<< <float>(const float &data);
 template Log &Log::operator<< <double>(const double &data);
-template Log &Log::operator<< <short>(const short &data);
-template Log &Log::operator<< <size_t>(const size_t &data);
 
 //String names for each logging level
 std::string log_levels[Log::count] = {"Info", "Warn", "Crit"};
