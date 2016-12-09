@@ -73,6 +73,6 @@ private:
     std::ofstream logstream; //Out output stream
 };
 
-#define log Log::logger
+#define frlog Log::logger
 
 #endif //FRLOG_H
