@@ -26,3 +26,10 @@
 *.exe
 *.out
 *.app
+.idea/Frlog.iml
+.idea/modules.xml
+.idea/workspace.xml
+.idea/misc.xml
+.idea/vcs.xml
+CMakeLists.txt
+cmake-build-debug/

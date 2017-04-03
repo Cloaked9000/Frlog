@@ -1,16 +1,27 @@
 # How to use:
 
-The following line initialises Frlog, telling it which file to write to:
-```
-Log::init("/path/to/log.txt");
+To initialise Frlog, you'll need to call 'frlog_define()' above your 'main()' function, and then 'Log::init(...)' to initialise logging in your main function like so:
+```c++
+//Define Frlog's static members.
+frlog_define();
+
+int main()
+{
+    //Initialise logging
+    if(!Log::init("/path/to/log.txt"))
+        // Error...
+        
+    //...
+    return 0;
+}
 ```
 
 This allows you to use a global instance of Log, 'log' to easily log data. To log some data, use:
-```
+```c++
 frlog << Log::info << "This is some data to be written " << 1 << 1.2 << std::string(" Hello") << Log::end;
 ```
 Which would result in something like this being written to the log:
-```
+```c++
 [2016-09-07 21:16:05 Info]: This is some data to be written 11.200000 Hello
 ```
 
