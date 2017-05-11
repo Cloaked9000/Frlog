@@ -12,6 +12,7 @@
 #include <ctime>
 #include <fstream>
 #include <chrono>
+#include <algorithm>
 
 //Set frlog define shortcut
 #define frlog Log::logger
@@ -64,7 +65,7 @@ public:
      *
      * @return The timestamp in format YYYY-MM-DD HH:MM:SS
      */
-    static std::string getCurrentTimestamp()
+    static std::string get_current_timestamp()
     {
         //Get the current timestamp
         std::time_t time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -83,23 +84,36 @@ public:
         return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
     }
 
+    /*!
+     * Generates a suggested log name, with characters
+     * safe on both Linux and Windows.
+     *
+     * @return A suitable log name
+     */
+    static std::string suggest_log_filename()
+    {
+        std::string timestamp = get_current_timestamp();
+        std::replace(timestamp.begin(), timestamp.end(), ':', '-');
+        return timestamp;
+    }
+
     //Required overloads for the '<<' operator
     template<typename T>
     inline Log &operator<<(const T &data)
     {
-        logCommit(std::to_string(data));
+        commit_log(std::to_string(data));
         return Log::logger;
     }
 
     inline Log &operator<<(const std::basic_string<char> &data)
     {
-        logCommit(data);
+        commit_log(data);
         return Log::logger;
     }
 
     Log &operator<<(const char *data)
     {
-        logCommit(data);
+        commit_log(data);
         return Log::logger;
     }
 
@@ -109,7 +123,7 @@ public:
         while(lock.test_and_set(std::memory_order_acquire))
                 asm volatile("pause\n": : :"memory");
 
-        logCommit("[" + getCurrentTimestamp() + " " + log_levels[loglevel] + "]: ");
+        commit_log("[" + get_current_timestamp() + " " + log_levels[loglevel] + "]: ");
 
         return Log::logger;
     }
@@ -117,7 +131,7 @@ public:
     Log &operator<<(End end)
     {
         //Release the lock
-        logCommit("\n");
+        commit_log("\n");
         lock.clear(std::memory_order_release);
         return Log::logger;
     }
@@ -143,7 +157,7 @@ private:
     Log(const Log &&l)=delete;
 
     //Internal logging function, it's what all of the '<<' overloads feed into
-    inline void logCommit(const std::string &data)
+    inline void commit_log(const std::string &data)
     {
         if(stdout_replication)
             std::cout << data;
