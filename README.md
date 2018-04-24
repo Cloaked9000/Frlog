@@ -1,22 +1,21 @@
 # How to use:
 
-To initialise Frlog, you'll need to call 'frlog_define()' above your 'main()' function, and then 'Log::init(...)' to initialise logging in your main function like so:
+To initialise Frlog, add 'Log::init(...)' to initialise logging in your main function like so:
 ```c++
-//Define Frlog's static members.
-frlog_define();
+#include <Log.h>
 
 int main()
 {
     //Initialise logging
-    if(!Log::init("/path/to/log.txt"))
-        // Error...
+    if(!frlog.init("logs/"))
+        return EXIT_FAILURE;
         
     //...
     return 0;
 }
 ```
 
-This allows you to use a global instance of Log, 'log' to easily log data. To log some data, use:
+This will create a directory called 'logs', and store log files within the directory. To log some data, use:
 ```c++
 frlog << Log::info << "This is some data to be written " << 1 << 1.2 << std::string(" Hello") << Log::end;
 ```
@@ -31,6 +30,10 @@ These are the following log types available:
 - info
 - crit
 - warn
+
+# Requirements:
+- A C++17 compliant compiler (constexpr if is used)
+- The '-lstdc++fs' link flag added, as std::filesystem is used.
 
 # Why must I include 'Log::type' at the beginning of my log, and 'Log::end' at the end?
 
